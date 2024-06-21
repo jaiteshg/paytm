@@ -1,12 +1,12 @@
 const express = require('express');
-const {authMiddleware} = require('../middleware');
+const authMiddleware = require('../middleware');
 const {Account} = require("../db");
 const {Router} = require("express");
 
-const router = Router();
+const router = express.Router();
 
 
-router.get("/balance", authMiddleware ,async (req , res) => {
+router.get("/balance", authMiddleware ,async function(req , res) {
     const account = await Account.FindOne({
         userid : req.userid,
     });
@@ -16,7 +16,7 @@ router.get("/balance", authMiddleware ,async (req , res) => {
 });
 
 
-router.post("/transfer" , authMiddleware , async (req , res) => {
+router.post("/transfer" , authMiddleware , async function(req , res){
     const { amount, to } = req.body;
 
     const account = await Account.findOne({
@@ -61,6 +61,4 @@ router.post("/transfer" , authMiddleware , async (req , res) => {
     
 })
 
-module.exports = {
-    router
-};
+module.exports = router;

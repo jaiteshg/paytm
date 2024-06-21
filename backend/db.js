@@ -2,7 +2,7 @@ const mongoose = require ("mongoose");
 const { Schema } = require("mongoose");
 
 
-mongoose.connect("mongodb://localhost:27017/paytm");
+mongoose.connect("mongodb+srv://gjaitesh:LVsOdefXa6OXpLDG@paytm.i0bdoh0.mongodb.net/");
 
 const userSchema = new Schema({
     username : {
