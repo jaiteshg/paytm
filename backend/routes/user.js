@@ -10,15 +10,12 @@ const router = express.Router();
 
 const signupBody = zod.object({
     username: zod.string().email(),
+    password:  zod.string(),
     firstname: zod.string(),
-    lastname:  zod.string(),
-    password:  zod.string()
+    lastname:  zod.string()   
 })
 router.post("/signup", async (req, res) => {
     const { success } = signupBody.safeParse(req.body)
-    console.log(signupBody.safeParse(req.body));
-    console.log(req.body);
-    console.log(success);
     if (!success) {
         return res.status(411).json({
             message: "Email already taken "
@@ -37,8 +34,8 @@ router.post("/signup", async (req, res) => {
     const user = await User.create({
         username: req.body.username,
         password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
     })
     const userId = user._id;
 
@@ -114,11 +111,11 @@ router.get('/bulk' , async function(req, res){
    const filter = req.query.filter || " ";
 
    const users = await User.find({
-    $or : [{firstName : {
+    $or : [{firstname : {
         $regex : filter, 
         }
     }, {
-        lastName : {
+        lastname : {
             $regex : filter, 
         }
     }]
@@ -126,8 +123,8 @@ router.get('/bulk' , async function(req, res){
     res.json({
         user: users.map(user => ({
             username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstname: user.firstname,
+            lastname: user.lastname,
             _id: user._id
         }))
     })
